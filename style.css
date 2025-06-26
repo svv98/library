@@ -117,6 +117,7 @@ body{
     border-left: 10px solid #ffffff36;
     background-color: rgb(85, 80, 80);
     color: rgba(255, 255, 255, 0.541);
+    cursor: pointer;
 }
 .bookDiv, .addDiv{
     min-height: 170px;
@@ -138,6 +139,7 @@ body{
     position: relative;
     bottom: 210px;
     left: 45px;
+    cursor: pointer;
 }
 .bookDiv>.bookRead{
     opacity: 0;
@@ -150,6 +152,7 @@ body{
     position: relative;
     bottom: 200px;
     left: -25px;
+    cursor: pointer;
 }
 .bookDiv:hover button{
     opacity: 1;
@@ -179,6 +182,7 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left;
+    background-color: grey;
 }
 .book:hover{
     cursor: pointer;
@@ -208,7 +212,7 @@ body{
 
 #addBook{
     width: 50%;
-    min-width: 300px;
+    min-width: fit-content;
     height: fit-content;
     background-color: #f6f2ea;
     border: 5px solid #ffffff96;
@@ -294,6 +298,14 @@ div>input{
     font-family: roboto;
     background-color: #c2beb967;
 }
+.addGenre>select{
+    border-radius: 6px;
+    border: 1px solid rgba(128, 128, 128, 0.377);
+    height: 25px;
+    font-size: 15px;
+    font-family: roboto;
+    background-color: #c2beb967;
+}
 .addForm .addSubmit{
     width: fit-content;
     padding: 10px 20px;
@@ -318,6 +330,7 @@ div>input{
 }
 
 
+
 #deleteBook{
     width: 50%;
     min-width: 300px;
@@ -326,6 +339,9 @@ div>input{
     border: 5px solid #ffffff96;
     border-radius: 20px;
     box-shadow: 0px 0px 60px 30px #1e423f;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    padding: 20px;
 }
 #deleteBook:not([open]) {
   display: none;
@@ -334,35 +350,116 @@ div>input{
     background-color: #0000008c;
 }
 .deleteClose{
+    grid-area: 1/2/2/3;
     background-color: transparent;
     border: none;
-    align-self: flex-end;
-    padding: 0;
-    margin: 0;
-
+    justify-self: end;
+    align-self: start;
 }
 .deleteClose>svg{
     width: 30px;
     aspect-ratio : 1 / 1;
     fill: #1e423f;
-    
 }
-.deleteClose:hover>svg{
+.deleteClose>svg:hover{
     cursor: pointer;
     fill: #4eb1a7;
+}
+.deleteWarning{
+    grid-area: 1/1/2/2;
+    align-self: start;
+}
+.deleteWarning>svg{
+    width: 50px;
+    aspect-ratio: 1 / 1;
+    fill: #960424;
+}
+.deleteConfirm{
+    grid-area: 2/1/3/3;
+    justify-self: center;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.deleteConfirmText{
+    font-family: lemonmilk;
+    font-size: clamp(30px, 0.0893rem + 7.8571vw, 5rem);
+    text-align: center;
+    color: #860420;
+}
+.deleteConfirmText2{
+    font-family: lemonmilklight;
+    font-size: clamp(10px, 0.4911rem + 0.7143vw, 0.9375rem);
+    text-align: center;
+    margin-bottom: 20px;
+}
+.deleteButtons{
+    display: flex;
+    justify-content: space-around;
+}
+.deleteButtons button{
+    font-size: clamp(1.25rem, 0.7143rem + 1.8571vw, 2.5rem);
+    font-family: lemonmilk;
+    width: fit-content;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+.deleteYES{
+    color: #f7d4d4;
+    background-color: #680218;
+    border: 3px solid #42131d;
+    outline: 2px solid #16080b;
+}
+.deleteYES:hover{
+    color: white;
+    background-color: #f80b0b;
+    border: 3px solid #ce3a3a;
+    outline: 2px solid #702626;
+    cursor: pointer;
+}
+.deleteCANCEL{
+    color: #eeeaea;
+    background-color: #5f6d6c;
+    border: 3px solid #3f4242;
+    outline: 2px solid #2a2b2b;
+}
+.deleteCANCEL:hover{
+    color: #d3d2d2;
+    background-color: #404242;
+    border: 3px solid #2f3030;
+    outline: 2px solid #0c0c0c;
+    cursor: pointer;
+}
+#deleteBook *:focus{
+    outline: 3px solid #1d9c8bb2;
+    box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.336);
+    font-weight: bold;
 }
 
 
 #bookInfo{
     width: 50%;
-    min-width: 300px;
+    min-width: 400px;
     height: fit-content;
+    max-height: 90%;
     background-color: #f6f2ea;
     border: 5px solid #ffffff96;
     border-radius: 20px;
     box-shadow: 0px 0px 60px 30px #1e423f;
-    display: flex;
-    flex-direction: column;
+    padding: 30px;
+    
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 30px;
+    grid-template-rows: min-content 1fr;
+    row-gap: 10px;
+    grid-template-areas: 
+    "inforead infotitle infotitle infoclose"
+    "infodiv infodiv infopic infopic";
+    justify-items: left;
+    align-items: center;
 }
 #bookInfo:not([open]) {
   display: none;
@@ -370,21 +467,103 @@ div>input{
 #bookInfo::backdrop{
     background-color: #0000008c;
 }
-.infoClose{
+
+.infoReadDiv{
+    grid-area: inforead;
+    justify-self: center;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+}
+.infoReadButton{
     background-color: transparent;
     border: none;
-    align-self: flex-end;
+    margin: 0;
+    padding: 0;
+    margin: -5px 0 0;
+}
+.infoReadButton>svg{
+    width: 58px;
+    fill: #142c2a;
+    margin: 0;
+    padding: 0;
+}
+.infoReadButton>svg:hover{
+    cursor: pointer;
+}
+.infoReadText{
+    font-family: roboto;
+    font-size: 12px;
+    margin: -5px 0 0;
+    color: #0d1b1a;
+}
+
+.infoTitle{
+    grid-area: infotitle;
+    align-self: start;
+    font-family: robotobold;
+    font-size: 25px;
+    text-align: left;
+    color: #1e423f;
+}
+.infoClose{
+    grid-area: infoclose;
+    align-self: start;
+    background-color: transparent;
+    border: none;
     padding: 0;
     margin: 0;
-
 }
 .infoClose>svg{
     width: 30px;
     aspect-ratio : 1 / 1;
     fill: #1e423f;
-    
 }
 .infoClose:hover>svg{
     cursor: pointer;
     fill: #4eb1a7;
+}
+.infoDiv{
+    grid-area: infodiv;
+    width: 90%;
+    align-self: start;
+    margin-top: 20px;
+
+    display: grid;
+    flex-direction: column;
+    gap: 15px;
+}
+.infoDiv>div{
+    display: grid;
+    grid-template: 1fr 1fr / 50px 1fr ;
+    align-items: center;
+    column-gap: 5px;
+}
+.infoDiv svg{
+    grid-area: 1/1/3/2;
+    width: 50px;
+    fill: #381804;
+}
+.infoDiv .infolabel{
+    align-self: end;
+    color: #55270a;
+    font-family: lemonmilk;
+    font-size: 16px;
+    text-decoration: underline;
+}
+.infoDiv .infoAuto{
+    align-self: start;
+    color: black;
+    font-family: roboto;
+    font-size: 16px;
+}
+.infoPic{
+    grid-area: infopic;
+    width: 90%;
+    max-width: 300px;
+    aspect-ratio : 1 / 1.5;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: grey;
 }
