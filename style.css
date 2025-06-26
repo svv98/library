@@ -39,10 +39,9 @@ body{
     width: 100vw;
 }
 
-
 .libraryPage{
     display: grid;
-    grid-template-rows: minmax(100px, 1fr) minmax(500px, 4fr);
+    grid-template-rows: minmax(100px, 1fr) minmax(500px, 5fr);
     height: inherit;
     width: inherit;
 }
@@ -50,57 +49,39 @@ body{
 .header{
     grid-row: 1/2;
     display: grid;
-    grid-template-columns: minmax(400px, 4fr) minmax(200px, 1fr);
-    padding: 50px;
-    /* background-color: #1e423f; */
+    grid-template-columns: minmax(400px, 1fr);
+    padding: 20px;
     align-items: center;
-    align-content: center;
+    justify-items: center;
     background-image: url(./pics/teal.jpg);
     background-size: cover;
 }
-.title{
+.headertitle{
     font-family: lemonmilk;
-    font-size: 60px;
+    font-size: 80px;
     color: #f6f2ea;
+    align-self: center;
 }
-.addDiv{
-    justify-self: right;
-}
-.addDiv .add{
-    font-family: lemonmilklight;
-    font-size: 20px;
-    padding: 20px 30px;
-    border-radius: 20px;
-    color: #f6f2ea;
-    background-color: #34000b;
-    border: 3px solid #c29b873f;
-    outline: 1px solid #f6f2ea25;
-}
-.add:hover{
-    font-family: lemonmilk;
-    color: #f6f2ea9f;
-    background-color: #532c2e;
-    border: 4px solid #c29b8736;
-}
+
 
 .main{
     grid-row: 2/3;
     display: grid;
     grid-template-columns: minmax(60px, 120px) minmax(40px, 80px) 
     minmax(400px, 1fr) minmax(40px, 80px) minmax(60px, 120px);
+    height: inherit;
 }
 .left{
     grid-column: 1/2;
     background-image: url(./pics/library.jpg);
     background-position: right top;
 }
-.side.l{
+.sidel{
     grid-column: 2/3;
     background: linear-gradient(90deg,#130801 0%, #472d17 50%, #311605 100%);
 }
-.side.r{
+.sider{
     grid-column: 4/5;
-    background-color: #311605;
     background: linear-gradient(90deg,#311605 0%, #472d17 50%, #130801 100%);
 }
 .right{
@@ -116,69 +97,294 @@ body{
     linear-gradient(90deg,#130801 0%, #311605 50%, #130801 100%);
     align-content: start;
 }
-.bookLink{
-    text-decoration: none;
+.addButton{
+    height: 100%;
+    max-height: 200px;
+    min-height: 170px;
+    width: 150px;
+    border: 1px solid #ffffff1c;
+    border-radius: 5px 10px 10px 5px;
+    border-left: 10px solid #ffffff3d;
+    border-bottom-color:#969393;
+    box-sizing: border-box;
+    font-family: lemonmilklight;
+    font-size: 50px;
+    background-color: rgba(255, 255, 255, 0.541);
+    color: rgb(85, 80, 80);
 }
-.bookDiv{
+.addButton:hover{
+    border: 2px solid #ffffff36;
+    border-left: 10px solid #ffffff36;
+    background-color: rgb(85, 80, 80);
+    color: rgba(255, 255, 255, 0.541);
+}
+.bookDiv, .addDiv{
+    min-height: 170px;
+    max-height: 200px;
     border-bottom: 30px solid #351a09;
-    padding: 20px 30px 1px;
+    padding: 20px 30px 0;
+    position: relative;
     align-content: center;
     justify-items: center;
 }
-.bookDiv>button{
-    visibility: hidden;
-}
-.bookDiv:hover button{
-    visibility: visible;
-    background-color: transparent;
+.bookDiv>.deleteButton{
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.158);
+    border-radius: 20px;
     border: none;
+    padding: 0;
+    margin: 0;
     position: relative;
     bottom: 210px;
-    left: 75px;
+    left: 45px;
 }
-.bookDiv svg{
+.bookDiv>.bookRead{
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.459);
+    border-radius: 20px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    bottom: 200px;
+    left: -25px;
+}
+.bookDiv:hover button{
+    opacity: 1;
+    visibility: visible;
+}
+.bookDiv .deleteButton>svg{
+    width: 40px;
+    aspect-ratio : 1 / 1;
+    fill: rgba(255, 255, 255, 0.884);
+}
+.bookRead>svg{
     width: 40px;
     aspect-ratio : 1 / 1;
     fill: rgba(255, 255, 255, 0.884);
 }
 .book{
     justify-items: center;
-    align-content: center;
-    border: 3px solid #0c0c0c34;
-    border-radius: 10px;
-    border-left: 30px solid #0000002c;
+    align-content: end;
+    border: 1px solid #ffffff1c;
+    border-radius: 5px 10px 10px 5px;
+    border-left: 10px solid #ffffff5b;
     box-sizing: border-box;
-    padding: 10px;
     height: 100%;
     max-height: 200px;
     min-height: 170px;
     width: 150px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left;
 }
 .book:hover{
     cursor: pointer;
 }
 .bookTitle{
+    visibility: hidden;
+    position: relative;
+    transition: .3s ease-in-out;
+    text-align: center;
     font-family: robotobold;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
+    width: 100%;
+}
+.book:hover .bookTitle{
+    visibility: visible;
     text-shadow: 3px 0 #200007, -3px 0 #200007, 0 3px #200007, 
     0 -3px #200007, 2px 2px #200007, -2px -2px #200007, 
     2px -2px #200007, -2px 2px #200007;
+    padding: 20px 5px 20px;
+}
+.library *:focus{
+    outline: 3px solid #50e909da;
+    box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.336);
 }
 
-.addBook{
+
+#addBook{
     width: 50%;
     min-width: 300px;
-    height: 50%;
-    min-height: 300px;
+    height: fit-content;
+    background-color: #f6f2ea;
+    border: 5px solid #ffffff96;
+    border-radius: 20px;
+    box-shadow: 0px 0px 60px 30px #1e423f;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+    align-content: start;
+    align-items: start;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
 }
-.addClose {
+#addBook:not([open]) {
+  display: none;
+}
+#addBook::backdrop{
+    background-color: #0000008c;
+}
+.addClose{
     background-color: transparent;
     border: none;
+    justify-self: end; 
+    align-self: start;
+    padding: 0;
+    margin: 0;
 }
 .addClose>svg{
     width: 30px;
     aspect-ratio : 1 / 1;
-    fill: #34000b;
+    fill: #1e423f;
+    
+}
+.addClose:hover>svg{
+    cursor: pointer;
+    fill: #4eb1a7;
 }
 
+.addForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+    padding: 0 50px;
+}
+.addForm>fieldset{
+    border: 1px solid #311605;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    row-gap: 15px;
+    padding: 0 20px 20px;
+    width: 100%;
+}
+.addForm legend{
+    font-family: lemonmilk;
+    font-size: 22px;
+    color: #311605;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+.addForm>fieldset>div{
+    display: grid;
+    grid-template: min-content 1fr/1fr;
+    gap: 1px;
+}
+fieldset>div>label{
+    font-family: lemonmilk;
+    font-size: 18px;
+    color: #1e423f;
+}
+.addRead>#read>label{
+    font-family: lemonmilklight;
+    font-size: 15px;
+}
+div>input{
+    border-radius: 6px;
+    border: 1px solid rgba(128, 128, 128, 0.377);
+    height: 20px;
+    font-size: 15px;
+    font-family: roboto;
+    background-color: #c2beb967;
+}
+.addForm .addSubmit{
+    width: fit-content;
+    padding: 10px 20px;
+    font-family: lemonmilk;
+    font-size: 15px;
+    border-radius: 10px;
+    color: #80685c;
+    background-color: #c29b872d;
+    border: 3px solid #967768;
+    outline: 2px solid #80685c;
+}
+.addForm .addSubmit:hover{
+    color: #1e423f;
+    background-color: #1e423f36;
+    border: 3px solid #1e423f;
+    outline: 2px solid #142c2a;
+}
+#addBook *:focus{
+    outline: 3px solid #1d9c8bb2;
+    box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.336);
+    font-weight: bold;
+}
+
+
+#deleteBook{
+    width: 50%;
+    min-width: 300px;
+    height: fit-content;
+    background-color: #f6f2ea;
+    border: 5px solid #ffffff96;
+    border-radius: 20px;
+    box-shadow: 0px 0px 60px 30px #1e423f;
+}
+#deleteBook:not([open]) {
+  display: none;
+}
+#deleteBook::backdrop{
+    background-color: #0000008c;
+}
+.deleteClose{
+    background-color: transparent;
+    border: none;
+    align-self: flex-end;
+    padding: 0;
+    margin: 0;
+
+}
+.deleteClose>svg{
+    width: 30px;
+    aspect-ratio : 1 / 1;
+    fill: #1e423f;
+    
+}
+.deleteClose:hover>svg{
+    cursor: pointer;
+    fill: #4eb1a7;
+}
+
+
+#bookInfo{
+    width: 50%;
+    min-width: 300px;
+    height: fit-content;
+    background-color: #f6f2ea;
+    border: 5px solid #ffffff96;
+    border-radius: 20px;
+    box-shadow: 0px 0px 60px 30px #1e423f;
+    display: flex;
+    flex-direction: column;
+}
+#bookInfo:not([open]) {
+  display: none;
+}
+#bookInfo::backdrop{
+    background-color: #0000008c;
+}
+.infoClose{
+    background-color: transparent;
+    border: none;
+    align-self: flex-end;
+    padding: 0;
+    margin: 0;
+
+}
+.infoClose>svg{
+    width: 30px;
+    aspect-ratio : 1 / 1;
+    fill: #1e423f;
+    
+}
+.infoClose:hover>svg{
+    cursor: pointer;
+    fill: #4eb1a7;
+}
