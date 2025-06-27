@@ -182,7 +182,6 @@ body{
     background-size: cover;
     background-repeat: no-repeat;
     background-position: left;
-    background-color: grey;
 }
 .book:hover{
     cursor: pointer;
@@ -281,12 +280,12 @@ body{
     grid-template: min-content 1fr/1fr;
     gap: 1px;
 }
-fieldset>div>label{
+fieldset>div>label, .addReadLabel{
     font-family: lemonmilk;
     font-size: 18px;
     color: #1e423f;
 }
-.addRead>#read>label{
+.addRead label{
     font-family: lemonmilklight;
     font-size: 15px;
 }
@@ -496,6 +495,7 @@ div>input{
     font-size: 12px;
     margin: -5px 0 0;
     color: #0d1b1a;
+    text-align: center;
 }
 
 .infoTitle{
@@ -566,4 +566,10 @@ div>input{
     background-repeat: no-repeat;
     background-position: center;
     background-color: grey;
+    border-radius: 10px 15px 15px 10px;
+}
+#bookInfo *:focus{
+    outline: 3px solid #1d9c8b23;
+    box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.062);
+    font-weight: bold;
 }
