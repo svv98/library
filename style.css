@@ -337,7 +337,7 @@ div>input{
     background-color: #f6f2ea;
     border: 5px solid #ffffff96;
     border-radius: 20px;
-    box-shadow: 0px 0px 60px 30px #1e423f;
+    box-shadow: 0px 0px 60px 30px #410404;
     display: grid;
     grid-template-columns: 50px 1fr;
     padding: 20px;
@@ -447,7 +447,6 @@ div>input{
     background-color: #f6f2ea;
     border: 5px solid #ffffff96;
     border-radius: 20px;
-    box-shadow: 0px 0px 60px 30px #1e423f;
     padding: 30px;
     
     display: grid;
@@ -557,6 +556,12 @@ div>input{
     font-family: roboto;
     font-size: 16px;
 }
+.infoGenre{
+    width: fit-content;
+    padding: 0 5px;
+    margin-top: 4px;
+    border-radius: 5px;
+}
 .infoPic{
     grid-area: infopic;
     width: 90%;
@@ -573,3 +578,4 @@ div>input{
     box-shadow: 5px 5px 10px 10px rgba(0, 0, 0, 0.062);
     font-weight: bold;
 }
+

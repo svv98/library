@@ -1,30 +1,21 @@
 let readButton;
 
-const addModal = document.querySelector("#addBook");
-const addShow = document.querySelector(".addButton");
-const addClose = document.querySelector(".addClose");
-addShow.addEventListener("click", () => {
-  addModal.showModal();
-});
-addClose.addEventListener("click", () => {
-  addModal.close();
-});
-
 const library = document.querySelector('.library');
 let myLibrary= [ ];
 
-function Book(title, author, pages, genre, read, image){
+function Book(title, author, pages, genre, read, image, genreGroup){
   this.id = crypto.randomUUID();
   this.title = title,
   this.author = author,
   this.pages = pages,
   this.genre = genre,
   this.read = read==='true',
-  this.image = image
+  this.image = image,
+  this.genreGroup = genreGroup
 };
 
-function addToLibrary(title, author, pages, genre, read, image){
-  myLibrary.push(new Book(title, author, pages, genre, read, image));
+function addToLibrary(title, author, pages, genre, read, image, genreGroup){
+  myLibrary.push(new Book(title, author, pages, genre, read, image, genreGroup));
   let bookID= myLibrary[myLibrary.length - 1].id;
 
   let bookDiv=document.createElement('div');
@@ -43,6 +34,7 @@ function addToLibrary(title, author, pages, genre, read, image){
   let bookRead=document.createElement('button');
   bookRead.classList.add('bookRead');
   bookRead.setAttribute('data-parentID',`${bookID}`);
+  bookRead.setAttribute('data-readID',`${bookID}`);
   bookRead.innerHTML = bookReadIcon(read==='true');
 
   let deleteButton=document.createElement('button');
@@ -78,72 +70,62 @@ function bookReadIcon(read){
   return readIcon
 }
 
-addToLibrary('Percy Jackson and the Lightning Thief', 'Rick Riordan', '416', 'fic', 'true', 'https://m.media-amazon.com/images/I/51LdV0opNvL._SY445_SX342_.jpg');
-addToLibrary('Percy Jackson and the Sea of Monsters', 'Rick Riordan', '320', 'fic', 'true', 'https://m.media-amazon.com/images/I/516i14qMwUL._SY445_SX342_.jpg');
-addToLibrary("Percy Jackson and the Titan's Curse", 'Rick Riordan', '352', 'fic', 'true', 'https://m.media-amazon.com/images/I/51aWjGY4ViL._SY445_SX342_.jpg');
-addToLibrary("Percy Jackson and the Battle of the Labyrinth", 'Rick Riordan', '361', 'fic', 'false', 'https://m.media-amazon.com/images/I/51GbhN5MShL._SY445_SX342_.jpg');
-addToLibrary("Percy Jackson and the Last Olympian", 'Rick Riordan', '432', 'fic', 'false', 'https://m.media-amazon.com/images/I/516kzSxA9XL._SY445_SX342_.jpg');
+addToLibrary('Percy Jackson and the Lightning Thief', 'Rick Riordan', '416', 'Literary Fiction', 'true', 'https://m.media-amazon.com/images/I/51LdV0opNvL._SY445_SX342_.jpg', 'fic');
+addToLibrary('Haikyu!! Vol 1', 'Haruichi Furudate', '192', 'Manga', 'false', 'https://m.media-amazon.com/images/I/8125DI58M+L.jpg', 'graphic');
+addToLibrary("Jujutsu Kaisen Vol 11", 'Gege Akutami', '198', 'Manga', 'true', 'https://m.media-amazon.com/images/I/61eFdMRqwNL._UF1000,1000_QL80_.jpg', 'graphic');
+
 
 const addForm = document.querySelector(".addForm");
+const addModal = document.querySelector("#addBook");
+const addShow = document.querySelector(".addButton");
+const addClose = document.querySelector(".addClose");
 addForm.addEventListener("submit", function(event){
   event.preventDefault();
   const formData = new FormData(this);
 
+  const select = document.getElementById('genre');
+  let genreOption= select.options[select.selectedIndex];
+
   const title = formData.get('title');
   const author = formData.get('author');
   const pages = formData.get('pages');
-  const genre = formData.get('genre');
+  const genre = genreOption.value;
+  const genreGroup = genreOption.className;
   const read = formData.get('read');
   const image = formData.get('image');
 
-  addToLibrary(title, author, pages, genre, read, image);
+  addToLibrary(title, author, pages, genre, read, image, genreGroup);
   addModal.close();
+  addForm.reset();
+})
+addShow.addEventListener("click", () => {
+  addModal.showModal();
 });
-
+addClose.addEventListener("click", () => {
+  addModal.close();
+  addForm.reset();
+});
 
 let deleteModal = document.querySelector("#deleteBook");
 const deleteClose = document.querySelector(".deleteClose");
-let deleteID;
-library.addEventListener("click", (event) => {
-  if(event.target.closest(".deleteButton")){
-    const btn = event.target.closest(".deleteButton");
-    deleteModal.showModal();
-    deleteID = btn.getAttribute('data-parentID');
-  }
-});
-deleteClose.addEventListener("click", () => {
-  deleteModal.close();
-});
 const deleteCANCEL = document.querySelector(".deleteCANCEL");
 const deleteYES = document.querySelector(".deleteYES");
-deleteCANCEL.addEventListener("click", () => {
-  deleteModal.close();
-});
-deleteYES.addEventListener("click", () => {
-  deleteModal.close();
-  document.getElementById(`${deleteID}`).remove();
-  let myLibrary2= [ ];
-  for(let bookObj of myLibrary){
-    if(bookObj.id!=deleteID){
-      myLibrary2.push(bookObj);
-    }
-  }
-  myLibrary=myLibrary2;
-  deleteModal=undefined;
-});
-
-
 const infoModal = document.querySelector("#bookInfo");
 const infoClose = document.querySelector(".infoClose");
 const infoReadButton = document.querySelector('.infoReadButton');
 const infoReadText = document.querySelector('.infoReadText');
-let idread, idtitle, idauthor, idpages, idgenre, idPic, infoID;
+let idread, idtitle, idauthor, idpages, idgenre, idPic, idgenreGroup, deleteID, infoID, readID, idreadicon;
 library.addEventListener("click", (event) => {
-  if(event.target.closest(".book")){
-    const button = event.target.closest(".book");
+  if(event.target.closest(".deleteButton")){
+    const buttonDelete = event.target.closest(".deleteButton");
+    deleteModal.showModal();
+    deleteID = buttonDelete.getAttribute('data-parentID');
+  }
+  else if(event.target.closest(".book")){
+    const buttonInfo = event.target.closest(".book");
     infoModal.showModal();
-    infoID = button.getAttribute('data-parentID');
-      for(let bookObj of myLibrary){
+    infoID = buttonInfo.getAttribute('data-parentID');
+    for(let bookObj of myLibrary){
         if(bookObj.id==infoID){
           idread=bookObj.read;
           idtitle=bookObj.title;
@@ -151,6 +133,7 @@ library.addEventListener("click", (event) => {
           idpages=bookObj.pages;
           idgenre=bookObj.genre;
           idPic=bookObj.image;
+          idgenreGroup=bookObj.genreGroup;
         }
     }
     infoReadButton.innerHTML = bookReadIcon(idread);
@@ -172,14 +155,75 @@ library.addEventListener("click", (event) => {
 
     const infoGenre = document.querySelector('.infoGenre');
     infoGenre.textContent=idgenre;
+    let genreColor;
+    switch(idgenreGroup){
+      case 'fic':
+        genreColor = 'rgba(138, 15, 17';
+      break;
+      case 'nonfic':
+        genreColor = 'rgba(182, 104, 15';
+      break;
+      case 'poet':
+        genreColor = 'rgba(202, 187, 20';
+      break;
+      case 'drama':
+        genreColor = 'rgba(100, 155, 24';
+      break;
+      case 'graphic':
+        genreColor = 'rgba(23, 101, 190';
+      break;
+      case 'relig':
+        genreColor = 'rgba(87, 35, 126';
+      break;
+      case 'spirit':
+        genreColor = 'rgba(163, 38, 126';
+      break;
+    }
+    infoModal.setAttribute('style',`box-shadow: 0px 0px 60px 30px ${genreColor}, 0.5);`);
+    infoGenre.setAttribute('style',`background-color: ${genreColor}, 0.2); box-shadow: 0px 0px 5px 4px ${genreColor}, 0.3);`);
 
     const infoPic = document.querySelector('.infoPic');
     infoPic.setAttribute('style',`background-image:url(${idPic});`);
   }
+  else if(event.target.closest(".bookRead")){
+    const buttonRead = event.target.closest(".bookRead");
+    readID = buttonRead.getAttribute('data-parentID');
+    for(let bookObj of myLibrary){
+        if(bookObj.id==readID){
+          idreadicon=!(bookObj.read);
+          bookObj.read = idreadicon;
+          break;
+        }
+      }
+    changeReadIcon(readID, idreadicon);
+  }
 });
+
+deleteClose.addEventListener("click", () => {
+  deleteModal.close();
+  deleteID=undefined;
+});
+
+deleteCANCEL.addEventListener("click", () => {
+  deleteModal.close();
+  deleteID=undefined;
+});
+deleteYES.addEventListener("click", () => {
+  deleteModal.close();
+  document.getElementById(`${deleteID}`).remove();
+  let myLibrary2= [ ];
+  for(let bookObj of myLibrary){
+    if(bookObj.id!=deleteID){
+      myLibrary2.push(bookObj);
+    }
+  }
+  myLibrary=myLibrary2;
+  deleteID=undefined;
+});
+
 infoClose.addEventListener("click", () => {
   infoModal.close();
-
+  infoModal.removeAttribute('style');
 });
 infoModal.addEventListener("click", (event) => {
   if(event.target.closest(".infoReadButton")){
@@ -190,14 +234,24 @@ infoModal.addEventListener("click", (event) => {
           break;
         }
       }
-      
     infoReadButton.innerHTML = bookReadIcon(idread);
     if(idread==true){
       infoReadText.textContent = 'Read :D';
-      
     }
     else{
       infoReadText.textContent = 'Not Read... yet :)';
     }
+    
+    changeReadIcon(infoID, idread);
   }
 });
+
+function changeReadIcon(id, read){
+  let xread=document.querySelectorAll("[data-readID]");
+    for(let readSVG of xread){
+      if(readSVG.getAttribute("data-readID") == id){
+        readSVG.innerHTML = bookReadIcon(read);
+      }
+    }
+    
+}
