@@ -3,7 +3,8 @@ let readButton;
 const library = document.querySelector('.library');
 let myLibrary= [ ];
 
-function Book(title, author, pages, genre, read, image, genreGroup){
+class Book{
+  constructor(title, author, pages, genre, read, image, genreGroup){
   this.id = crypto.randomUUID();
   this.title = title,
   this.author = author,
@@ -12,6 +13,7 @@ function Book(title, author, pages, genre, read, image, genreGroup){
   this.read = read==='true',
   this.image = image,
   this.genreGroup = genreGroup
+  }
 };
 
 function addToLibrary(title, author, pages, genre, read, image, genreGroup){
